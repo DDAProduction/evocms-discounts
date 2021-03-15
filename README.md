@@ -1,6 +1,9 @@
 ## EvocmsDiscounts
 Модуль скидок для Commerce. Во многом похож на CommerceDiscounts.
 
+## Требования
+php >= 7.4 && mysql 5.6
+
 ### Установка
 1. php artisan package:installrequire ddaproduction/evocms-discounts "*"
 2. php artisan vendor:publish  --provider="EvolutionCMS\EvocmsDiscounts\EvocmsDiscountsServiceProvider"
