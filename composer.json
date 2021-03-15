@@ -1,0 +1,20 @@
+{
+  "name": "evocms-discounts",
+  "description": "Discounts module for commerce",
+  "require": {
+
+  },
+  "autoload": {
+    "psr-4": {
+      "EvolutionCMS\\EvocmsDiscounts\\": "src"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "EvolutionCMS\\EvocmsDiscounts\\EvocmsDiscountsServiceProvider"
+      ]
+
+    }
+  }
+}
