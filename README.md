@@ -2,7 +2,7 @@
 Модуль скидок для Commerce. Во многом похож на CommerceDiscounts.
 
 ### Установка
-1. php artisan package:installrequire DDAProduction/evocms-discounts "*"
+1. php artisan package:installrequire ddaproduction/evocms-discounts "*"
 2. php artisan vendor:publish  --provider="EvolutionCMS\EvocmsDiscounts\EvocmsDiscountsServiceProvider"
 3. php artisan migrate
 
