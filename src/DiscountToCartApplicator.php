@@ -27,19 +27,9 @@ class DiscountToCartApplicator
      * @var Rules\Rule[]
      */
     private array $rules;
-    /**
-     * @var ProductsCart
-     */
-    private $productCart;
 
     public function __construct(AppliesManager $appliesManager, DiscountSumCalculator $discountSumCalculator)
     {
-
-        /** @var CartsManager $cartsManager */
-        $cartsManager = ci()->get('carts');
-
-        $this->productCart = $cartsManager->getCart('products');
-
 
         $ruleLoader = evo()->make(RulesLoader::class);
         $this->rules = $ruleLoader->loadRules();
@@ -48,7 +38,7 @@ class DiscountToCartApplicator
     }
 
 
-    public function apply(&$params)
+    public function getDiscount($cart)
     {
 
         /** @var \Illuminate\Database\Eloquent\Builder $q */
@@ -75,7 +65,6 @@ class DiscountToCartApplicator
 
         $maxDiscount = null;
 
-
         foreach ($discounts as $discount) {
 
 
@@ -86,7 +75,7 @@ class DiscountToCartApplicator
             $apply = $this->appliesManager->getApplyById($applyId)->getController();
 
 
-            $cart = $this->calcTotal($discount->exclude_sales);
+            $cart = $this->calcTotal($cart,$discount->exclude_sales);
 
 
             $discountCheck = $apply->checkDiscount($discount,$cart,$applyValue);
@@ -105,24 +94,17 @@ class DiscountToCartApplicator
             }
         }
 
-        if($maxDiscount){
-            $params['total'] += $maxDiscount['sum'];
-            $params['rows']['discount'] = [
-                'title' => $maxDiscount['discount']->title,
-                'price' => $maxDiscount['sum'],
-            ];
-        }
 
-
+        return $maxDiscount;
     }
 
-    private function calcTotal(bool $exclude_sales)
+    private function calcTotal(array $cart,bool $exclude_sales)
     {
         $count = 0;
         $sum = 0;
 
 
-        foreach ($this->productCart->getItems() as $item) {
+        foreach ($cart as $item) {
 
             if ($exclude_sales && isset($item['meta']['discount'])) {
                 continue;

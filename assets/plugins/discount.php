@@ -1,5 +1,6 @@
 <?php
 
+use Commerce\CartsManager;
 use EvolutionCMS\EvocmsDiscounts\DiscountToProductApplicator;
 
 Event::listen('evolution.OnWebPageInit',function (){
@@ -22,10 +23,24 @@ Event::listen('evolution.OnBeforeCartItemAdding',function ($params){
 
 Event::listen(['evolution.OnCollectSubtotals'],function ($params){
 
+    /** @var CartsManager $cartsManager */
+    $cartsManager = ci()->get('carts');
+    /** @var \Commerce\Carts\ProductsCart $productCart */
+    $productCart = $cartsManager->getCart('products');
 
     $applicator = evo()->make(\EvolutionCMS\EvocmsDiscounts\DiscountToCartApplicator::class);
+    $discount = $applicator->getDiscount($productCart->getItems());
 
-    $discount = $applicator->apply($params);
+    if ($discount) {
+
+        $params['total'] += $discount['sum'];
+        $params['rows']['discount'] = [
+            'title' => $discount['discount']->title,
+            'price' => $discount['sum'],
+        ];
+
+    }
+
 });
 
 Event::listen(['evolution.OnCartChanged'],function (){
