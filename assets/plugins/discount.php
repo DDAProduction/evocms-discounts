@@ -33,7 +33,7 @@ Event::listen(['evolution.OnCollectSubtotals'],function ($params){
 
     if ($discount) {
 
-        $params['total'] += $discount['sum'];
+        $params['total'] -= $discount['sum'];
         $params['rows']['discount'] = [
             'title' => $discount['discount']->title,
             'price' => $discount['sum'],
