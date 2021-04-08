@@ -59,17 +59,25 @@
                         {
                             cols:[
                                 {
-                                    view:"datepicker",
-                                    format:"%d.%m.%Y %H:%i:%s",
-                                    name:"period_from",
-                                    label:"@lang('EvocmsDiscounts::main.period_from')",
+                                    view:"text",
+
+                                    name:"period_count",
+                                    label:"@lang('EvocmsDiscounts::main.period_type_count')",
                                     labelPosition:"top"
                                 },
                                 {
-                                    view:"datepicker",
-                                    format:"%d.%m.%Y %H:%i:%s",
-                                    name:"period_to",
-                                    label:"@lang('EvocmsDiscounts::main.period_to')",
+                                    view:"select",
+                                    name:"type",
+                                    label:"@lang('EvocmsDiscounts::main.period_type')",
+
+                                    options:[
+                                        { "id":0, "value":"------" },
+                                        { "id":"day", "value":"@lang('EvocmsDiscounts::main.period_type_day')" },
+                                        { "id":"week", "value":"@lang('EvocmsDiscounts::main.period_type_week')" },
+                                        { "id":"month", "value":"@lang('EvocmsDiscounts::main.period_type_month')" },
+                                        { "id":"year", "value":"@lang('EvocmsDiscounts::main.period_type_year')" },
+                                    ],
+
                                     labelPosition:"top"
                                 }
                             ]

@@ -4,6 +4,7 @@
 namespace EvolutionCMS\EvocmsDiscounts\Console;
 
 
+use Carbon\Carbon;
 use EvolutionCMS\EvocmsDiscounts\Config;
 use EvolutionCMS\EvocmsDiscounts\Models\Discount;
 use EvolutionCMS\EvocmsDiscounts\Models\DiscountsCartCumulativeAchieved;
@@ -49,25 +50,34 @@ class ApplyCartCumulativeUpdate extends Command
                 $q->whereIn('status_id', $statuses);
             }
 
-            if (!empty($cartCumulative['period_from'])) {
-                $q->where('created_at', '>=', $cartCumulative['period_from']);
-            }
-            if (!empty($cartCumulative['period_to'])) {
-                $q->where('created_at', '<=', $cartCumulative['period_to']);
-            }
 
-            if (!empty($cartCumulative['sum_from'])) {
-                $q->having('amount_total', '>=', $cartCumulative['sum_from']);
+            if (!empty($cartCumulative['type'])) {
+
+                switch ($cartCumulative['type']){
+                    case 'day':
+                        $q->where('created_at', '>=', Carbon::today()->subDays($cartCumulative['period_count']));
+                        break;
+                    case 'week':
+                        $q->where('created_at', '>=', Carbon::today()->subWeeks($cartCumulative['period_count']));
+                        break;
+                    case 'month':
+                        $q->where('created_at', '>=', Carbon::today()->subMonths($cartCumulative['period_count']));
+                        break;
+                    case 'year':
+                        $q->where('created_at', '>=', Carbon::today()->subYears($cartCumulative['period_count']));
+                        break;
+                }
+
+
             }
 
             if (!empty($cartCumulative['sum_to'])) {
                 $q->having('amount_total', '<=', $cartCumulative['sum_to']);
             }
 
-
             $q->groupBy('customer_id');
-
             $res = $q->get();
+
 
             foreach ($res as $re) {
                 DiscountsCartCumulativeAchieved::create([

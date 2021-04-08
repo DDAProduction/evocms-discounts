@@ -41,6 +41,13 @@ return [
     'rule_period_to_cation'=>'Период по',
     'rule_user_groups_cation'=>'Группа пользователей',
 
+    'period_type_count'=>'За последнии',
+    'period_type'=>'Тип периода',
+    'period_type_day'=>'Дней',
+    'period_type_week'=>'Недель',
+    'period_type_month'=>'Месяцев',
+    'period_type_year'=>'Лет',
+
 
     'rule_products_tree_caption'=>'Список товаров',
     'rule_products_filter_by_name_caption'=>'Фильтр по названию',

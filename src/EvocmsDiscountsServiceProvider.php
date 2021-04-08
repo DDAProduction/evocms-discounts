@@ -1,5 +1,6 @@
 <?php namespace EvolutionCMS\EvocmsDiscounts;
 
+use Carbon\Carbon;
 use EvolutionCMS\EvocmsDiscounts\Console\ApplyCartCumulativeUpdate;
 use EvolutionCMS\ServiceProvider;
 use EvolutionCMS\EvocmsDiscounts\Router\Router;
@@ -16,6 +17,11 @@ class EvocmsDiscountsServiceProvider extends ServiceProvider
     public function register()
     {
 
+
+
+//        var_dump(Carbon::today()->subYears(2)->format('d-m-Y'));
+//        die();
+
         evo()->singleton(Router::class);
         evo()->singleton(Config::class);
 
@@ -28,7 +34,7 @@ class EvocmsDiscountsServiceProvider extends ServiceProvider
             dirname(__DIR__) . '/assets/plugins/'
         );
 
-        $this->publishes([__DIR__ . '/../public' => public_path('assets/modules/evocms-discounts/')]);
+        $this->publishes([__DIR__ . '/../public/modules/evocms-discounts/' => public_path('assets/modules/evocms-discounts/')]);
 
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
 
