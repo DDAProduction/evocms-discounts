@@ -10,15 +10,20 @@ use EvolutionCMS\Models\MemberGroup;
 class UserGroupsRuleController implements IRuleController
 {
 
-    public function updateQuery(\Illuminate\Database\Eloquent\Builder $query, array $product)
+    public function updateQuery(\Illuminate\Database\Eloquent\Builder $query, array $values)
     {
         $userGroupIds = [];
-        $userId = evo()->getLoginUserID();
 
+        if (isset($values['user_groups'])) {
+            $userGroupIds = $values['user_groups'];
+        } else {
+            $userId = evo()->getLoginUserID();
 
-        if($userId){
-            $userGroupIds = MemberGroup::where('member',$userId)->pluck('user_group')->toArray();
+            if ($userId) {
+                $userGroupIds = MemberGroup::where('member', $userId)->pluck('user_group')->toArray();
+            }
         }
+
 
 
         $query->where(function (\Illuminate\Database\Eloquent\Builder $query) use($userGroupIds){

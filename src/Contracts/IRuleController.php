@@ -6,6 +6,6 @@ use EvolutionCMS\EvocmsDiscounts\Models\Discount;
 interface IRuleController
 {
 
-    public function updateQuery(\Illuminate\Database\Eloquent\Builder $query,array $data);
+    public function updateQuery(\Illuminate\Database\Eloquent\Builder $query,array $values);
 
 }

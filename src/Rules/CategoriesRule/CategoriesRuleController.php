@@ -12,8 +12,10 @@ class CategoriesRuleController implements IRuleController
 {
 
 
-    public function updateQuery(\Illuminate\Database\Eloquent\Builder $query, array $product)
+    public function updateQuery(\Illuminate\Database\Eloquent\Builder $query, array $values)
     {
+        $product = $values['product'] ?? [];
+
         $query->leftJoin('discounts_categories','discounts_categories.discount_id','=','discounts.id');
 
         $query->where(function (\Illuminate\Database\Eloquent\Builder $query) use($product){

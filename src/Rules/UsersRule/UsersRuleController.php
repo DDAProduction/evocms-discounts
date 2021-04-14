@@ -10,15 +10,20 @@ use EvolutionCMS\Models\MemberGroup;
 class UsersRuleController implements IRuleController
 {
 
-    public function updateQuery(\Illuminate\Database\Eloquent\Builder $query, array $product)
+    public function updateQuery(\Illuminate\Database\Eloquent\Builder $query, array $values)
     {
-        $userId = evo()->getLoginUserID();
 
-        if($userId === false){
-            $userId = 0;
+
+        if(isset($values['user_id'])){
+            $userId = $values['user_id'];
         }
+        else{
+            $userId = evo()->getLoginUserID();
 
-        $userId = 2;
+            if($userId === false){
+                $userId = 0;
+            }
+        }
 
         $query->leftJoin('discounts_users','discounts_users.discount_id','=','discounts.id');
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace EvolutionCMS\EvocmsDiscounts;
 
 use EvolutionCMS\EvocmsDiscounts\Models\Discount;
@@ -7,7 +8,9 @@ use EvolutionCMS\EvocmsDiscounts\Rules\RulesLoader;
 class DiscountSearcher
 {
 
-    public function searchAvailableDiscounts(){
+    public function searchAvailableDiscountsForUser($userId)
+    {
+
 
         /** @var \Illuminate\Database\Eloquent\Builder $q */
         $q = Discount::select('discounts.*');
@@ -17,8 +20,10 @@ class DiscountSearcher
 
 
         foreach ($rules as $ruleId => $rule) {
-            if(in_array($ruleId,['periodFrom','periodTo','userGroups','users'])){
-                $rule->getController()->updateQuery($q,[]);
+            if (in_array($ruleId, ['periodFrom', 'periodTo', 'userGroups', 'users'])) {
+                $rule->getController()->updateQuery($q, [
+                    'user_id' => $userId,
+                ]);
             }
         }
         $q->groupBy('discounts.id');

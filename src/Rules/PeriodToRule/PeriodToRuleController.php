@@ -10,13 +10,15 @@ use EvolutionCMS\EvocmsDiscounts\Contracts\IRuleController;
 class PeriodToRuleController implements IRuleController
 {
 
-    public function updateQuery(\Illuminate\Database\Eloquent\Builder $query, array $product)
+    public function updateQuery(\Illuminate\Database\Eloquent\Builder $query, array $values)
     {
 
-        $query->where(function (\Illuminate\Database\Eloquent\Builder $query) use($product){
+        $periodTo = $values['period_to'] ?? Carbon::now();
+
+        $query->where(function (\Illuminate\Database\Eloquent\Builder $query) use($periodTo){
 
             $query->whereNull('discounts.rule_period_to');
-            $query->orWhere('discounts.rule_period_to','>=',Carbon::now());
+            $query->orWhere('discounts.rule_period_to','>=',$periodTo);
         });
     }
 }
