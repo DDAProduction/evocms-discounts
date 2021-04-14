@@ -54,7 +54,6 @@ class DiscountToCartApplicator
                 $applyController->updateQuery($q);
             }
         }
-
         $q->groupBy('discounts.id');
 
 
