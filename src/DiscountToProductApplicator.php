@@ -52,12 +52,7 @@ class DiscountToProductApplicator
 
     public function apply(){
         $this->clearDiscount();
-
-
-
         $products = $this->productCart->getItems();
-
-
 
         foreach ($products as $row => $product) {
             $maxDiscount = $this->getMaxDiscountForProduct($product);
@@ -112,7 +107,9 @@ class DiscountToProductApplicator
         $q = Discount::where('type',Discount::TYPE_PRODUCT);
 
         foreach ($this->rules as $rule) {
-            $rule->getController()->updateQuery($q,$product);
+            $rule->getController()->updateQuery($q,[
+                'product'=>$product
+            ]);
         }
 
         $q->groupBy('discounts.id');

@@ -2,6 +2,7 @@
 namespace EvolutionCMS\EvocmsDiscounts\Rules\ProductsRule;
 
 
+use Carbon\Carbon;
 use EvolutionCMS\EvocmsDiscounts\Contracts\IRuleController;
 use EvolutionCMS\EvocmsDiscounts\Models\Discount;
 
@@ -9,8 +10,10 @@ class ProductsRuleController implements IRuleController
 {
 
 
-    public function updateQuery(\Illuminate\Database\Eloquent\Builder $query, array $product)
+    public function updateQuery(\Illuminate\Database\Eloquent\Builder $query, array $values)
     {
+
+        $product = $values['product'] ?? [];
 
         $query->leftJoin('discounts_products','discounts_products.discount_id','=','discounts.id');
 
